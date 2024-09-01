@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Product } from '../types/Product';
 
 const API_URL =
@@ -25,5 +26,18 @@ export const getProducts = async (): Promise<Product[]> => {
     } else {
       throw new Error('An unknown error occurred');
     }
+  }
+};
+
+export const createProduct = async (product: Product) => {
+  try {
+    const response = await axios.post(API_URL, product, {
+      headers: {
+        authorId: '123456',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('Error al crear el producto.');
   }
 };

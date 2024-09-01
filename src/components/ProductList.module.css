@@ -9,9 +9,34 @@
   align-items: center;
 }
 
+.agregar__button {
+  background-color: #ffc107;
+  color: #3c4250;
+  padding: 20px 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.agregar__button:hover {
+  background-color: #e6d76a;
+}
+
 .search__bar__container {
   width: 90%;
   margin: 80px auto 10px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search__bar__container .search__input {
+  width: calc(100% - 160px);
+  margin-right: 20px;
 }
 
 .product__table__container {
