@@ -1,6 +1,6 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import ProductList from "./components/ProductList";
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import ProductList from './components/ProductList';
 
 const AppRoutes: React.FC = () => {
   return (

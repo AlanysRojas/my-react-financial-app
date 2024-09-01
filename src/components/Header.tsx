@@ -1,12 +1,12 @@
-import React from "react";
-import styles from "./Header.module.css"
+import React from 'react';
+import styles from './Header.module.css';
 
 const Header: React.FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.header__content}>
         <img
-          src={require("../assets/images/header-logo.png")}
+          src={require('../assets/images/header-logo.png')}
           alt="Logo"
           className={styles.header__logo}
         />

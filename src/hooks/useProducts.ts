@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { getProducts } from "../services/productService";
-import {Product} from "../types/Product";
+import { useState, useEffect } from 'react';
+import { getProducts } from '../services/productService';
+import { Product } from '../types/Product';
 
 export const useProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -10,7 +10,7 @@ export const useProducts = () => {
   useEffect(() => {
     getProducts()
       .then(setProducts)
-      .catch(() => setError("Error fetching products"))
+      .catch(() => setError('Error fetching products'))
       .finally(() => setLoading(false));
   }, []);
 
