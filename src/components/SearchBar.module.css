@@ -1,0 +1,9 @@
+.search__bar {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px;
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}

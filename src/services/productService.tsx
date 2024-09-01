@@ -1,11 +1,11 @@
-import { Product } from "../types/Product";
+import { Product } from '../types/Product';
 
 const API_URL =
-    process.env.REACT_APP_API_URL ||
-    "https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros/bp/products";
+  process.env.REACT_APP_API_URL ||
+  'https://tribu-ti-staffing-desarrollo-afangwbmcrhucqfh.z01.azurefd.net/ipf-msa-productosfinancieros/bp/products';
 
 const DEFAULT_HEADERS = {
-  authorId: process.env.REACT_APP_AUTHOR_ID || "123456",
+  authorId: process.env.REACT_APP_AUTHOR_ID || '123456',
 };
 
 export const getProducts = async (): Promise<Product[]> => {
@@ -23,7 +23,7 @@ export const getProducts = async (): Promise<Product[]> => {
     if (error instanceof Error) {
       throw new Error(`An error occurred: ${error.message}`);
     } else {
-      throw new Error("An unknown error occurred");
+      throw new Error('An unknown error occurred');
     }
   }
 };
