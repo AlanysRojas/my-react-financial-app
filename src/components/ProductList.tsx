@@ -4,6 +4,7 @@ import ProductItem from './ProductItem';
 import Header from './Header';
 import styles from './ProductList.module.css';
 import SearchBar from './SearchBar';
+import PaginationSelector from './PaginationSelector';
 
 const ProductList: React.FC = () => {
   const { products, loading, error } = useProducts();
@@ -41,6 +42,11 @@ const ProductList: React.FC = () => {
             ))}
           </tbody>
         </table>
+        <PaginationSelector
+          itemsPerPage={itemsPerPage}
+          onItemsPerPageChange={setItemsPerPage}
+          totalItems={filteredProducts.length}
+        />
       </div>
     </div>
   );
