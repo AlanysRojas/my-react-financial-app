@@ -5,6 +5,7 @@ import Header from './Header';
 import styles from './ProductList.module.css';
 import SearchBar from './SearchBar';
 import PaginationSelector from './PaginationSelector';
+import { useNavigate } from 'react-router-dom';
 
 const ProductList: React.FC = () => {
   const { products, loading, error } = useProducts();
@@ -15,6 +16,11 @@ const ProductList: React.FC = () => {
   );
 
   const paginatedProducts = filteredProducts.slice(0, itemsPerPage);
+  const navigate = useNavigate();
+
+  const handleAddClick = () => {
+    navigate('/products/new');
+  };
 
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>{error}</p>;
@@ -24,6 +30,9 @@ const ProductList: React.FC = () => {
       <Header />
       <div className={styles.search__bar__container}>
         <SearchBar searchTerm={searchTerm} onSearch={setSearchTerm} />
+        <button onClick={handleAddClick} className={styles.agregar__button}>
+          Agregar
+        </button>
       </div>
       <div className={styles.product__table__container}>
         <table className={styles.product__table}>
