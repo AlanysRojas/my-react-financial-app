@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useProducts } from '../hooks/useProducts';
 import ProductItem from './ProductItem';
 import Header from './Header';
@@ -11,11 +11,11 @@ const ProductList: React.FC = () => {
   const { products, loading, error } = useProducts();
   const [searchTerm, setSearchTerm] = React.useState<string>('');
   const [itemsPerPage, setItemsPerPage] = React.useState<number>(5);
-  const filteredProducts = products.filter(product =>
+  const filteredProducts = products?.filter(product =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const paginatedProducts = filteredProducts.slice(0, itemsPerPage);
+  const paginatedProducts = filteredProducts?.slice(0, itemsPerPage);
   const navigate = useNavigate();
 
   const handleAddClick = () => {
@@ -46,7 +46,7 @@ const ProductList: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {paginatedProducts.map(product => (
+            {paginatedProducts?.map(product => (
               <ProductItem key={product.id} product={product} />
             ))}
           </tbody>
@@ -54,7 +54,7 @@ const ProductList: React.FC = () => {
         <PaginationSelector
           itemsPerPage={itemsPerPage}
           onItemsPerPageChange={setItemsPerPage}
-          totalItems={filteredProducts.length}
+          totalItems={filteredProducts?.length}
         />
       </div>
     </div>

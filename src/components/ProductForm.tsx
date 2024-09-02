@@ -9,6 +9,7 @@ import {
 import Header from './Header';
 import styles from './ProductForm.module.css';
 import { useParams } from 'react-router-dom';
+import AlertBanner from './AlertBanner';
 
 const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
   const [product, setProduct] = useState<Product>({
@@ -21,8 +22,20 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [successMessage, setSuccessMessage] = useState<string>('');
   const { id } = useParams<{ id: string }>();
+  const [alertBanner, setAlertBanner] = useState({
+    show: false,
+    message: '',
+    type: 'info' as 'success' | 'error' | 'warning' | 'info',
+  });
+
+  const handleClose = () => {
+    setAlertBanner({
+      show: false,
+      message: '',
+      type: 'info',
+    });
+  };
 
   useEffect(() => {
     if (isEdit && id) {
@@ -31,9 +44,11 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
           const product = await getProductById(id);
           setProduct(product);
         } catch (error) {
-          setErrors({
-            apiError:
+          setAlertBanner({
+            show: true,
+            message:
               'Error al cargar el producto. Por favor, intenta nuevamente.',
+            type: 'error',
           });
         }
       };
@@ -59,19 +74,27 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
       setErrors(validationErrors);
       return;
     }
-
     try {
       if (isEdit) {
         await updateProduct(product);
-        setSuccessMessage('Producto actualizado con éxito.');
+        setAlertBanner({
+          show: true,
+          message: 'Producto actualizado con éxito.',
+          type: 'success',
+        });
       } else {
         await createProduct(product);
-        setSuccessMessage('Producto creado con éxito.');
+        setAlertBanner({
+          show: true,
+          message: 'Producto creado con éxito.',
+          type: 'success',
+        });
       }
-      handleReset();
     } catch (error) {
-      setErrors({
-        apiError: `Error al ${isEdit ? 'actualizar' : 'crear'} el producto. Por favor, intenta nuevamente.`,
+      setAlertBanner({
+        show: true,
+        message: `Error al ${isEdit ? 'actualizar' : 'crear'} el producto. Por favor, intenta nuevamente.`,
+        type: 'error',
       });
     }
   };
@@ -86,7 +109,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
       date_revision: '',
     });
     setErrors({});
-    setSuccessMessage('');
+    handleClose();
   };
 
   return (
@@ -94,12 +117,20 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
       <Header />
       <div className={styles.form__container}>
         <h2>{isEdit ? 'Editar Producto' : 'Formulario de Registro'}</h2>
+        {alertBanner.show && (
+          <AlertBanner
+            message={alertBanner.message}
+            type={alertBanner.type}
+            onClose={handleClose}
+          />
+        )}
         <form onSubmit={handleSubmit}>
           <div className={styles.form__row}>
             <div className={styles.form__group}>
               <label htmlFor="id">ID</label>
               <input
                 type="text"
+                id="id"
                 name="id"
                 value={product.id}
                 onChange={handleChange}
@@ -114,6 +145,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
               <label htmlFor="name">Nombre</label>
               <input
                 type="text"
+                id="name"
                 name="name"
                 value={product.name}
                 onChange={handleChange}
@@ -128,6 +160,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
             <div className={styles.form__group}>
               <label htmlFor="description">Descripción</label>
               <input
+                id="description"
                 name="description"
                 value={product.description}
                 onChange={handleChange}
@@ -143,6 +176,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
               <label htmlFor="logo">Logo</label>
               <input
                 type="text"
+                id="logo"
                 name="logo"
                 value={product.logo}
                 onChange={handleChange}
@@ -158,6 +192,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
               <label htmlFor="date_release">Fecha Liberación</label>
               <input
                 type="date"
+                id="date_release"
                 name="date_release"
                 value={product.date_release}
                 onChange={handleChange}
@@ -173,6 +208,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
               <label htmlFor="date_revision">Fecha Revisión</label>
               <input
                 type="date"
+                id="date_revision"
                 name="date_revision"
                 value={product.date_revision}
                 onChange={handleChange}
@@ -185,9 +221,6 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
               )}
             </div>
           </div>
-          {errors.apiError && (
-            <p className={styles.api__error__message}>{errors.apiError}</p>
-          )}
           <div className={styles.button__group}>
             <button
               type="button"
@@ -201,9 +234,6 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
             </button>
           </div>
         </form>
-        {successMessage && (
-          <p className={styles.success__message}>{successMessage}</p>
-        )}
       </div>
     </div>
   );
