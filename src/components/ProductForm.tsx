@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Product } from '../types/Product';
 import { validateProduct } from '../utils/validationUtils';
-import { createProduct } from '../services/productService';
+import {
+  createProduct,
+  updateProduct,
+  getProductById,
+} from '../services/productService';
 import Header from './Header';
 import styles from './ProductForm.module.css';
+import { useParams } from 'react-router-dom';
 
-const ProductForm: React.FC = () => {
+const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
   const [product, setProduct] = useState<Product>({
     id: '',
     name: '',
@@ -17,6 +22,24 @@ const ProductForm: React.FC = () => {
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [successMessage, setSuccessMessage] = useState<string>('');
+  const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    if (isEdit && id) {
+      const loadProduct = async () => {
+        try {
+          const product = await getProductById(id);
+          setProduct(product);
+        } catch (error) {
+          setErrors({
+            apiError:
+              'Error al cargar el producto. Por favor, intenta nuevamente.',
+          });
+        }
+      };
+      loadProduct();
+    }
+  }, [isEdit, id]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -38,12 +61,17 @@ const ProductForm: React.FC = () => {
     }
 
     try {
-      await createProduct(product);
-      setSuccessMessage('Producto creado con éxito.');
+      if (isEdit) {
+        await updateProduct(product);
+        setSuccessMessage('Producto actualizado con éxito.');
+      } else {
+        await createProduct(product);
+        setSuccessMessage('Producto creado con éxito.');
+      }
       handleReset();
     } catch (error) {
       setErrors({
-        apiError: 'Error al crear el producto. Por favor, intenta nuevamente.',
+        apiError: `Error al ${isEdit ? 'actualizar' : 'crear'} el producto. Por favor, intenta nuevamente.`,
       });
     }
   };
@@ -65,7 +93,7 @@ const ProductForm: React.FC = () => {
     <div>
       <Header />
       <div className={styles.form__container}>
-        <h2>Formulario de Registro</h2>
+        <h2>{isEdit ? 'Editar Producto' : 'Formulario de Registro'}</h2>
         <form onSubmit={handleSubmit}>
           <div className={styles.form__row}>
             <div className={styles.form__group}>
@@ -76,6 +104,7 @@ const ProductForm: React.FC = () => {
                 value={product.id}
                 onChange={handleChange}
                 className={errors.id ? styles.error : ''}
+                readOnly={isEdit}
               />
               {errors.id && (
                 <span className={styles.error__message}>{errors.id}</span>
@@ -156,6 +185,9 @@ const ProductForm: React.FC = () => {
               )}
             </div>
           </div>
+          {errors.apiError && (
+            <p className={styles.api__error__message}>{errors.apiError}</p>
+          )}
           <div className={styles.button__group}>
             <button
               type="button"
@@ -165,10 +197,13 @@ const ProductForm: React.FC = () => {
               Reiniciar
             </button>
             <button type="submit" className={styles.submit__button}>
-              Enviar
+              {isEdit ? 'Actualizar' : 'Enviar'}
             </button>
           </div>
         </form>
+        {successMessage && (
+          <p className={styles.success__message}>{successMessage}</p>
+        )}
       </div>
     </div>
   );
