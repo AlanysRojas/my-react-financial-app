@@ -63,7 +63,7 @@ describe('productService', () => {
 
   describe('createProduct', () => {
     it('should create a product successfully', async () => {
-      axios.post.mockResolvedValue({ data: mockProducts[0] });
+      (axios.post as jest.Mock).mockResolvedValue({ data: mockProducts[0] });
 
       const result = await createProduct(mockProducts[0]);
       expect(result).toEqual(mockProducts[0]);
@@ -77,7 +77,7 @@ describe('productService', () => {
     });
 
     it('should throw an error if the creation fails', async () => {
-      axios.post.mockRejectedValue(new Error('Creation failed'));
+      (axios.post as jest.Mock).mockRejectedValue(new Error('Creation failed'));
 
       await expect(createProduct(mockProducts[1])).rejects.toThrow(
         'Error al crear el producto.'
