@@ -49,66 +49,62 @@ h2::after {
 input, textarea {
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ced4da; /* Color de borde más claro */
+    border: 1px solid #ced4da;
     border-radius: 4px;
     transition: border-color 0.3s ease;
 }
 
 input:focus, textarea:focus {
     outline: none;
-    border-color: #007bff; /* Borde azul al enfocar */
+    border-color: #007bff;
 }
 
-/* Mensaje de error */
 .error__message {
     color: #e74c3c;
     font-size: 14px;
     margin-top: 5px;
 }
 
-/* Estilo para inputs con errores */
 .error {
     border-color: #e74c3c;
 }
 
-/* Botones de acción */
 .button__group {
     display: flex;
-    justify-content: center; /* Centrando los botones */
-    margin-top: 10px; /* Reducir margen superior para acercar los botones al formulario */
-    gap: 65px; /* Espaciado entre los botones */
+    justify-content: center;
+    margin-top: 10px;
+    gap: 65px;
 }
 
 .reset__button,
 .submit__button {
-    width: 120px; /* Ajustar el ancho de los botones */
-    padding: 17px 25px; /* Hacer los botones más anchos */
+    width: 120px;
+    padding: 17px 25px;
     font-size: 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 0; /* Eliminar margen adicional en los botones */
+    margin-top: 0;
 }
 
-/* Estilo del botón de reset */
 .reset__button {
-    background-color: #dfe3ee; /* Color azul muy claro */
-    color: #000; /* Color de texto negro */
+    background-color: #dfe3ee;
+    color: #000;
 }
 
 .reset__button:hover {
-    background-color: #c2cbd7; /* Un tono más oscuro al pasar el ratón */
+    background-color: #c2cbd7;
 }
 
-/* Estilo del botón de enviar */
+
 .submit__button {
-    background-color: #ffc107; /* Color amarillo */
-    color: #000; /* Color de texto negro */
+    background-color: #ffc107;
+    color: #000;
 }
 
 .submit__button:hover {
-    background-color: #e0a800; /* Un tono más oscuro al pasar el ratón */
+    background-color: #e0a800;
 }
 
 @media (max-width: 768px) {
@@ -123,12 +119,12 @@ input:focus, textarea:focus {
 
     .button__group {
         flex-direction: column;
-        align-items: center; /* Asegura que los botones permanezcan centrados en pantallas pequeñas */
+        align-items: center;
     }
 
     .reset__button,
     .submit__button {
-        width: 100%; /* Botones ocupan todo el ancho en pantallas pequeñas */
+        width: 100%;
         margin-bottom: 10px;
     }
 }

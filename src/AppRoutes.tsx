@@ -9,6 +9,10 @@ const AppRoutes: React.FC = () => {
       <Route path="/" element={<Navigate to="/products" />} />
       <Route path="/products" element={<ProductList />} />
       <Route path="/products/new" element={<ProductForm />} />
+      <Route
+        path="/products/edit/:id"
+        element={<ProductForm isEdit={true} />}
+      />
     </Routes>
   );
 };

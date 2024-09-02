@@ -32,12 +32,44 @@ export const getProducts = async (): Promise<Product[]> => {
 export const createProduct = async (product: Product) => {
   try {
     const response = await axios.post(API_URL, product, {
-      headers: {
-        authorId: '123456',
-      },
+      headers: DEFAULT_HEADERS,
     });
     return response.data;
   } catch (error) {
     throw new Error('Error al crear el producto.');
+  }
+};
+
+export const updateProduct = async (product: Product) => {
+  try {
+    const response = await axios.put(API_URL, product, {
+      headers: DEFAULT_HEADERS,
+    });
+    return response.data;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to update product: ${error.message}`);
+    } else {
+      throw new Error('An unknown error occurred while updating the product');
+    }
+  }
+};
+
+export const getProductById = async (id: string): Promise<Product> => {
+  try {
+    const response = await axios.get(API_URL, {
+      headers: DEFAULT_HEADERS,
+    });
+
+    const products: Product[] = response.data;
+    const product = products.find(p => p.id === id);
+
+    if (!product) {
+      throw new Error('Producto no encontrado');
+    }
+
+    return product;
+  } catch (error) {
+    throw new Error('Error al obtener el producto.');
   }
 };
