@@ -1,5 +1,5 @@
 import React from 'react';
-import './Alert.module.css';
+import styles from './Alert.module.css';
 
 type AlertBannerProps = {
   message: string;
@@ -7,18 +7,18 @@ type AlertBannerProps = {
   onClose?: () => void;
 };
 
-const AlertBanner: React.FC<AlertBannerProps> = ({
+const Alert: React.FC<AlertBannerProps> = ({
   message,
   type = 'info',
   onClose,
 }) => {
-  const bannerClassName = `alert-banner alert-banner-${type}`;
+  const bannerClassName = `${styles.alertBanner} ${styles[`alertBanner${type.charAt(0).toUpperCase() + type.slice(1)}`]}`;
 
   return (
     <div className={bannerClassName}>
       <span>{message}</span>
       {onClose && (
-        <button className="alert-banner-close-button" onClick={onClose}>
+        <button className={styles.alertBannerCloseButton} onClick={onClose}>
           &times;
         </button>
       )}
@@ -26,4 +26,4 @@ const AlertBanner: React.FC<AlertBannerProps> = ({
   );
 };
 
-export default AlertBanner;
+export default Alert;
