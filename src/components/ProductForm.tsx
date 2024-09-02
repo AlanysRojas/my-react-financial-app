@@ -9,7 +9,7 @@ import {
 import Header from './Header';
 import styles from './ProductForm.module.css';
 import { useParams } from 'react-router-dom';
-import AlertBanner from './AlertBanner';
+import Alert from './Alert';
 
 const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
   const [product, setProduct] = useState<Product>({
@@ -90,6 +90,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
           type: 'success',
         });
       }
+      cleanForm();
     } catch (error) {
       setAlertBanner({
         show: true,
@@ -98,8 +99,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
       });
     }
   };
-
-  const handleReset = () => {
+  const cleanForm = () => {
     setProduct({
       id: '',
       name: '',
@@ -109,6 +109,10 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
       date_revision: '',
     });
     setErrors({});
+  };
+
+  const handleReset = () => {
+    cleanForm();
     handleClose();
   };
 
@@ -118,7 +122,7 @@ const ProductForm: React.FC<{ isEdit?: boolean }> = ({ isEdit = false }) => {
       <div className={styles.form__container}>
         <h2>{isEdit ? 'Editar Producto' : 'Formulario de Registro'}</h2>
         {alertBanner.show && (
-          <AlertBanner
+          <Alert
             message={alertBanner.message}
             type={alertBanner.type}
             onClose={handleClose}
